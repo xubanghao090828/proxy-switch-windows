@@ -1,0 +1,168 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ChatGPT / Codex 代理开关" Width="600" Height="620"
+        WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize"
+        AllowsTransparency="True" Background="Transparent" FontFamily="Segoe UI"
+        ShowInTaskbar="True">
+  <Window.Resources>
+    <Style x:Key="RoundButton" TargetType="Button">
+      <Setter Property="FontSize" Value="13"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="ButtonSurface" Background="{TemplateBinding Background}"
+                    CornerRadius="11" BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="ButtonSurface" Property="Opacity" Value="0.82"/>
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="ButtonSurface" Property="Opacity" Value="0.42"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </Window.Resources>
+
+  <Border Margin="15" CornerRadius="24" Background="#F6FAF8"
+          BorderBrush="#DDEBE5" BorderThickness="1">
+    <Border.Effect>
+      <DropShadowEffect Color="#14382A" BlurRadius="26" ShadowDepth="7" Opacity="0.18"/>
+    </Border.Effect>
+    <Grid Margin="28,20,28,22">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="38"/>
+        <RowDefinition Height="12"/>
+        <RowDefinition Height="112"/>
+        <RowDefinition Height="18"/>
+        <RowDefinition Height="25"/>
+        <RowDefinition Height="10"/>
+        <RowDefinition Height="98"/>
+        <RowDefinition Height="10"/>
+        <RowDefinition Height="98"/>
+        <RowDefinition Height="16"/>
+        <RowDefinition Height="46"/>
+        <RowDefinition Height="12"/>
+        <RowDefinition Height="46"/>
+      </Grid.RowDefinitions>
+
+      <Grid x:Name="TitleBar" Grid.Row="0" Background="Transparent">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="34"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="32"/>
+          <ColumnDefinition Width="32"/>
+        </Grid.ColumnDefinitions>
+        <Border Width="30" Height="30" CornerRadius="9" Background="#14B884"
+                HorizontalAlignment="Left" VerticalAlignment="Center">
+          <TextBlock Text="↗" Foreground="White" FontSize="20" FontWeight="Bold"
+                     HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-3,0,0"/>
+        </Border>
+        <TextBlock Grid.Column="1" Text="代理开关" Foreground="#17342B"
+                   FontSize="17" FontWeight="Bold" VerticalAlignment="Center" Margin="8,0,0,0"/>
+        <Button x:Name="MinimizeButton" Grid.Column="2" Content="−" Width="30" Height="30"
+                Background="Transparent" Foreground="#74877D" FontSize="20"
+                BorderThickness="0" Cursor="Hand" ToolTip="最小化"/>
+        <Button x:Name="CloseButton" Grid.Column="3" Content="×" Width="30" Height="30"
+                Background="Transparent" Foreground="#74877D" FontSize="22"
+                BorderThickness="0" Cursor="Hand" ToolTip="关闭窗口"/>
+      </Grid>
+
+      <Border x:Name="HeroCard" Grid.Row="2" CornerRadius="18" Background="#DDF7EC">
+        <Grid Margin="20,15,20,15">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="21"/>
+            <RowDefinition Height="37"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+          <TextBlock Text="当前状态" Foreground="#517866" FontSize="12" FontWeight="SemiBold"/>
+          <TextBlock x:Name="StatusTitle" Grid.Row="1" Text="正在检查…"
+                     Foreground="#173E30" FontSize="24" FontWeight="Bold"/>
+          <TextBlock x:Name="StatusSubtitle" Grid.Row="2" Text=""
+                     Foreground="#517866" FontSize="12" TextWrapping="Wrap"/>
+          <Border x:Name="StatusBadge" Grid.Row="0" Grid.RowSpan="2"
+                  HorizontalAlignment="Right" VerticalAlignment="Top"
+                  Background="#BCEBD4" CornerRadius="12" Padding="11,5">
+            <TextBlock x:Name="StatusBadgeText" Text="检查中" Foreground="#167551"
+                       FontSize="11" FontWeight="Bold"/>
+          </Border>
+        </Grid>
+      </Border>
+
+      <Grid Grid.Row="4">
+        <TextBlock Text="选择代理" FontSize="15" FontWeight="Bold"
+                   Foreground="#243C32" VerticalAlignment="Center"/>
+        <Button x:Name="RefreshButton" Content="刷新状态" HorizontalAlignment="Right"
+                Foreground="#0B9970" Background="Transparent" BorderThickness="0"
+                FontSize="12" Cursor="Hand"/>
+      </Grid>
+
+      <Border Grid.Row="6" CornerRadius="16" Background="White"
+              BorderBrush="#E0EBE6" BorderThickness="1">
+        <Grid Margin="15,12,15,12">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="47"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="111"/>
+          </Grid.ColumnDefinitions>
+          <Border Width="37" Height="37" Background="#E2F8EF" CornerRadius="11"
+                  HorizontalAlignment="Left" VerticalAlignment="Center">
+            <TextBlock Text="C" Foreground="#13A978" FontSize="17" FontWeight="Bold"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+          <StackPanel Grid.Column="1" VerticalAlignment="Center">
+            <TextBlock Text="Clash" Foreground="#1C362C" FontSize="15" FontWeight="Bold"/>
+            <TextBlock x:Name="ClashState" Text="检查中 · 127.0.0.1:7877"
+                       Foreground="#71857A" FontSize="11" Margin="0,4,0,0"/>
+          </StackPanel>
+          <Button x:Name="ClashButton" Grid.Column="2" Content="使用 Clash"
+                  Style="{StaticResource RoundButton}" Height="38" Background="#16B987"
+                  Foreground="White" VerticalAlignment="Center"/>
+        </Grid>
+      </Border>
+
+      <Border Grid.Row="8" CornerRadius="16" Background="White"
+              BorderBrush="#E0EBE6" BorderThickness="1">
+        <Grid Margin="15,12,15,12">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="47"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="111"/>
+          </Grid.ColumnDefinitions>
+          <Border Width="37" Height="37" Background="#E9F0FF" CornerRadius="11"
+                  HorizontalAlignment="Left" VerticalAlignment="Center">
+            <TextBlock Text="V" Foreground="#5D7DCA" FontSize="17" FontWeight="Bold"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+          <StackPanel Grid.Column="1" VerticalAlignment="Center">
+            <TextBlock Text="v2rayN" Foreground="#1C362C" FontSize="15" FontWeight="Bold"/>
+            <TextBlock x:Name="V2rayState" Text="检查中 · 127.0.0.1:10808"
+                       Foreground="#71857A" FontSize="11" Margin="0,4,0,0"/>
+          </StackPanel>
+          <Button x:Name="V2rayButton" Grid.Column="2" Content="使用 v2rayN"
+                  Style="{StaticResource RoundButton}" Height="38" Background="#637FC7"
+                  Foreground="White" VerticalAlignment="Center"/>
+        </Grid>
+      </Border>
+
+      <StackPanel Grid.Row="10" VerticalAlignment="Center">
+        <TextBlock Text="切换后，重新打开 ChatGPT / Codex 才会生效。"
+                   Foreground="#526E60" FontSize="12"/>
+        <TextBlock x:Name="TunText" Text="TUN 由 Clash 单独控制。"
+                   Foreground="#8B9B91" FontSize="11" Margin="0,5,0,0"/>
+      </StackPanel>
+
+      <Button x:Name="OffButton" Grid.Row="12" Content="关闭代理"
+              Style="{StaticResource RoundButton}" Height="46"
+              Background="#E6EEEA" Foreground="#30483A"/>
+    </Grid>
+  </Border>
+</Window>
