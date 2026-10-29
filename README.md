@@ -6,7 +6,7 @@
 
 ## 下载与运行
 
-在本仓库的 **Releases** 下载 `ProxySwitch.exe`，双击运行；也可以下载 ZIP 后解压运行。仓库为私有仓库，只有有权限的 GitHub 账号能访问下载页。
+在本仓库的 **Releases** 下载 `ProxySwitch.exe`，双击运行；也可以下载 ZIP 后解压运行。
 
 适用于 Windows 10/11 x64，使用系统自带的 Windows PowerShell 5.1 和 .NET Framework。EXE 包含界面与脚本，启动时将它们写入 `%LOCALAPPDATA%\ProxySwitch\0.1.0\src`。无需管理员权限，也不安装驱动。当前版本未签名。
 
@@ -46,4 +46,4 @@
 - `src/Desktop-Proxy-Switch.ps1`、`src/Codex-Proxy-Switch.ps1`：配置写入、删除及保护。
 - `src/Launcher.ps1`、`build.ps1`：EXE 启动与打包。
 
-本仓库为私人存档，未提供开源许可证。
+本仓库公开供查看和下载，但目前未提供开源许可证；公开源码不代表授权他人复制、修改或再发布。
